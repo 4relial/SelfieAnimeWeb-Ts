@@ -13,7 +13,7 @@ npm i
 
 #####  START
 ```Alpine Abuild
-npm start
+npm run start
 ```
 
 # ⚠ ATTENTION ⚠
