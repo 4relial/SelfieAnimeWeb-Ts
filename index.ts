@@ -4,7 +4,6 @@ import multer from 'multer';
 import { Response } from 'express-serve-static-core';
 import fs from 'fs';
 import { JadiAnime } from 'jadianime-ts';
-import axios from 'axios';
 
 const app = express();
 const port = 3000;
@@ -36,19 +35,7 @@ app.post(
           if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath)
           if (fs.existsSync(targetPath)) fs.unlinkSync(targetPath)
           let url: string = image.img;
-
-          const response = await axios.request({
-            url,
-            timeout: 7000,
-            responseType: 'arraybuffer',
-          });
-
-          res.writeHead(200, {
-            'Content-Type': 'image/png',
-            'Content-Length': response.data.length
-          });
-
-          res.end(response.data)
+          res.redirect(url);
         } catch (e: any) {
           if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath)
           if (fs.existsSync(targetPath)) fs.unlinkSync(targetPath)
