@@ -11,7 +11,7 @@ cd SelfieAnimeWeb-Ts
 npm i
 ```
 
-#####  START BOT
+#####  START
 ```Alpine Abuild
 npm start
 ```
