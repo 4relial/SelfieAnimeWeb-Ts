@@ -62,7 +62,7 @@ app.post(
         res
           .status(403)
           .contentType("text/plain")
-          .end("Only .png files are allowed!");
+          .end("Only image are allowed!");
       });
     }
   }
