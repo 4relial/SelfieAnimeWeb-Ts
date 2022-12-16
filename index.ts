@@ -31,23 +31,29 @@ app.post(
     if (path.extname(oriName).toLowerCase() === ".png" || path.extname(oriName).toLowerCase() === ".jpg" || path.extname(oriName).toLowerCase() === ".jpeg") {
       fs.rename(tempPath, targetPath, async (err: any) => {
         if (err) return handleError(err, res);
-        let image = await JadiAnime(targetPath)
-        if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath)
-        if (fs.existsSync(targetPath)) fs.unlinkSync(targetPath)
-        let url: string = image.img;
-        
-        const response = await axios.request({
-          url,
-          timeout: 7000,
-          responseType: 'arraybuffer',
-        });
+        try {
+          let image = await JadiAnime(targetPath)
+          if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath)
+          if (fs.existsSync(targetPath)) fs.unlinkSync(targetPath)
+          let url: string = image.img;
 
-        res.writeHead(200, {
-          'Content-Type': 'image/png',
-          'Content-Length': response.data.length
-        });
+          const response = await axios.request({
+            url,
+            timeout: 7000,
+            responseType: 'arraybuffer',
+          });
 
-        res.end(response.data)
+          res.writeHead(200, {
+            'Content-Type': 'image/png',
+            'Content-Length': response.data.length
+          });
+
+          res.end(response.data)
+        } catch (e: any) {
+          if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath)
+          if (fs.existsSync(targetPath)) fs.unlinkSync(targetPath)
+          res.send(e.toString())
+        }
       });
     } else {
       fs.unlink(tempPath, err => {
